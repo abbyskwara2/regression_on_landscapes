@@ -1,9 +1,7 @@
 library(tidyverse)
 library(readr)
 library(extrafont)
-library(cowplot)
-
-#loadfonts()
+library(RColorBrewer)
 
 #read in r2 summary from all datasets 
 r2_res <- readRDS("../Results/model_fit_data/r2_res.RDS")
@@ -11,16 +9,18 @@ r2_res <- readRDS("../Results/model_fit_data/r2_res.RDS")
 #collect names 
 all_datasets <- r2_res$name
 
-#processing to ggplot format
+#long data format
 infit_res <- r2_res %>% select(c(name, r2_1o, r2_2o, r2_3o)) 
 colnames(infit_res) <- c('name', '1', '2','3')
-infit_res <- infit_res %>% pivot_longer(-c(name), names_to = 'order') %>% 
+infit_res <- infit_res %>% 
+  pivot_longer(-c(name), names_to = 'order') %>% 
   mutate(infit = 'full dataset')
 
 
 loo_res <- r2_res %>% select(c(name, r2_loo_1o, r2_loo_2o, r2_loo_3o))
 colnames(loo_res) <- c('name', '1', '2', '3')
-loo_res <- loo_res %>% pivot_longer(-c(name), names_to = 'order') %>% 
+loo_res <- loo_res %>% 
+  pivot_longer(-c(name), names_to = 'order') %>% 
   mutate(infit = 'LOO-CV') 
 
 
@@ -28,7 +28,7 @@ r2_res_all <- rbind(infit_res, loo_res)
 r2_res_all$value <- as.numeric(r2_res_all$value)
 plot_list <- list()
 
-
+# make r2 summary plot, all datasets
 color_1 <- brewer.pal(8, 'Greys')[6]
 for (ind in 1:length(all_datasets)){
   
@@ -45,7 +45,6 @@ for (ind in 1:length(all_datasets)){
     guides(fill = guide_legend(''), color = guide_legend('')) + 
     theme_classic() + 
     theme(text = element_text(size = 18, family = 'Arial'),
-          #panel.border = element_rect(fill=NA, colour = "black", size = 1),
           legend.position="bottom", 
           axis.title.x = element_text(size = 18, color = "black"), 
           axis.title.y = element_text(size = 18, face="bold", color = "black"),
