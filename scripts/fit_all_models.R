@@ -4,7 +4,7 @@ library(glmnet)
 
 set.seed(1)
 
-#helper function
+#helper function for cross validation
 get_folds <- function(df, unique_communities, n_folds = 10){
   
   n_points <- length(unique_communities) 
@@ -78,12 +78,13 @@ get_model_fit <- function(df, all_species, order){
   loo_cv_res <- tibble()
   for (i in 1:length(unique_communities)){
     
-    print(paste0(i, 'out of ', length(unique_communities)))
+    #print(paste0(i, 'out of ', length(unique_communities)))
     
+    #drop LOO point
     exp <- unique_communities[i]
     exp_index <- which(df$community == exp )
     
-    #pairwise regression
+    #response variable
     y <- as.matrix(df[-exp_index,]$fitness)
     
     if (order == 1){
@@ -100,7 +101,7 @@ get_model_fit <- function(df, all_species, order){
     fold_ids <- get_folds(df[-exp_index,], unique_communities[-i], n_folds = 10)
     cv_fit <- cv.glmnet(x = x, y = y, foldid = fold_ids) 
     
-    #get out of fit cv 
+    #get LOO response
     y_test <- as.matrix(df[exp_index[1],]$fitness)
     
     if (order == 1){
@@ -116,13 +117,19 @@ get_model_fit <- function(df, all_species, order){
     y_pred_cv <- predict(cv_fit, x_test, s = "lambda.1se")
     
     for (j in 1:length(exp_index)){
-      tmp <- list(exp = exp, observed = df[exp_index[j],]$fitness, predicted = array(y_pred_cv))
+      tmp <- list(exp = exp, 
+                  observed = df[exp_index[j],]$fitness,
+                  predicted = array(y_pred_cv))
       loo_cv_res <- rbind(loo_cv_res, tmp)
     }
   }
   
-  loo_cv_res <- data.frame(loo_cv_res) %>% group_by(exp) %>% mutate(mean_observed = mean(observed))
-  loo_cv_res_unique <- loo_cv_res %>% ungroup() %>% distinct(exp, .keep_all = TRUE) 
+  loo_cv_res <- data.frame(loo_cv_res) %>% 
+    group_by(exp) %>% 
+    mutate(mean_observed = mean(observed))
+  loo_cv_res_unique <- loo_cv_res %>% 
+    ungroup() %>% 
+    distinct(exp, .keep_all = TRUE) 
   
   #get r2 for mean value across replicates
   r2_loo <- cor(loo_cv_res_unique$mean_observed, loo_cv_res_unique$predicted)^2
@@ -171,7 +178,6 @@ for (dataset in all_datasets){
               r2_2o = second_order_res$r2, r2_loo_2o = second_order_res$r2_loo, 
               r2_3o = third_order_res$r2, r2_loo_3o = third_order_res$r2_loo)
   r2_res <- rbind(r2_res, tmp)
-  print(r2_res)
 }
 
 saveRDS(r2_res, file = '../../Results/model_fit_data/r2_res.RDS')
