@@ -87,11 +87,11 @@ make_oof_plot <- function(loo_cv_res, xlabelval, ylabelval){
 ## generate plots for all datasets ## 
 
 # Langenheder data
-load(file = "../../Results/model_fit_plots/second_order_infit_Langenheder.RData")
-load(file = "../../Results/model_fit_plots/second_order_oof_Langenheder.RData")
+load(file = "../../Results/model_fit_plots/second_order_infit_oxidation.RData")
+load(file = "../../Results/model_fit_plots/second_order_oof_oxidation.RData")
 
-p2_langenheder <- make_infit_plot(res_cv, 1.26, .47)
-p2_oof_langenheder <- make_oof_plot(loo_cv_res, 1.26, .45)
+p2_oxidation <- make_infit_plot(res_cv, 1.26, .47)
+p2_oof_oxidation <- make_oof_plot(loo_cv_res, 1.26, .45)
 
 # Butyrate data
 
@@ -133,13 +133,13 @@ p2_GE_biomass <- make_infit_plot(res_cv, .084, .022)
 p2_GE_biomass_replicates <- make_infit_plot(res_cv, .084, .022, replicates = TRUE)
 p2_oof_GE_biomass <- make_oof_plot(loo_cv_res, .084, .022)
 
-# Jared data
-load(file = "../../Results/model_fit_plots/second_order_infit_jared_data.RData")
-load(file = "../../Results/model_fit_plots/second_order_oof_jared_data.RData")
+# kehe data
+load(file = "../../Results/model_fit_plots/second_order_infit_kehe_data.RData")
+load(file = "../../Results/model_fit_plots/second_order_oof_kehe_data.RData")
 
-p2_jared_data <- make_infit_plot(res_cv, 7900, 1900) 
-p2_jared_data_replicates <- make_infit_plot(res_cv, 7900, 1500, replicates = TRUE)
-p2_oof_jared_data <- make_oof_plot(loo_cv_res, 7900, 1900)
+p2_kehe_data <- make_infit_plot(res_cv, 7900, 1900) 
+p2_kehe_data_replicates <- make_infit_plot(res_cv, 7900, 1500, replicates = TRUE)
+p2_oof_kehe_data <- make_oof_plot(loo_cv_res, 7900, 1900)
 
 
 #############################
@@ -147,28 +147,28 @@ p2_oof_jared_data <- make_oof_plot(loo_cv_res, 7900, 1900)
 ##############################
 
 palign <- align_plots(p2_butyrate, 
-                      p2_langenheder,
+                      p2_oxidation,
                       p2_starch_data, 
                       p2_pyoverdine,
                       p2_GE_biomass, 
-                      p2_jared_data)
+                      p2_kehe_data)
 
-ggsave(filename = '../../Figures/so_fit_Butyrate.pdf', plot = palign[[1]], 
+ggsave(filename = '../Figures/so_fit_Butyrate.pdf', plot = palign[[1]], 
        device = 'pdf', dpi = 600, height = 4, width = 4) 
 
-ggsave(filename = '../../Figures/so_fit_langenheder.pdf', plot = palign[[2]], 
+ggsave(filename = '../Figures/so_fit_oxidation.pdf', plot = palign[[2]], 
        device = 'pdf', dpi = 600, height = 4, width = 4) 
 
-ggsave(filename = '../../Figures/so_fit_starch_data.pdf', plot = palign[[3]], 
+ggsave(filename = '../Figures/so_fit_starch_data.pdf', plot = palign[[3]], 
        device = 'pdf', dpi = 600, height = 4, width = 4) 
 
-ggsave(filename = '../../Figures/so_fit_pyoverdine.pdf', plot = palign[[4]], 
+ggsave(filename = '../Figures/so_fit_pyoverdine.pdf', plot = palign[[4]], 
        device = 'pdf', dpi = 600, height = 4, width = 4) 
 
-ggsave(filename = '../../Figures/so_fit_GE_biomass.pdf', plot = palign[[5]], 
+ggsave(filename = '../Figures/so_fit_GE_biomass.pdf', plot = palign[[5]], 
        device = 'pdf', dpi = 600, height = 4, width = 4) 
 
-ggsave(filename = '../../Figures/so_fit_jared_data.pdf', plot = palign[[6]], 
+ggsave(filename = '../Figures/so_fit_kehe_data.pdf', plot = palign[[6]], 
        device = 'pdf', dpi = 600, height = 4, width = 4) 
 
 
@@ -177,38 +177,38 @@ ggsave(filename = '../../Figures/so_fit_jared_data.pdf', plot = palign[[6]],
 ###############################
 
 palign <- align_plots(p2_oof_butyrate, 
-                      p2_oof_langenheder, 
+                      p2_oof_oxidation, 
                       p2_oof_starch_data, 
                       p2_oof_pyoverdine, 
                       p2_oof_GE_biomass, 
-                      p2_oof_jared_data)
+                      p2_oof_kehe_data)
 
 plot_grid(p2_oof_butyrate, 
-          p2_oof_langenheder, 
+          p2_oof_oxidation, 
           p2_oof_starch_data, 
           p2_oof_pyoverdine, 
           p2_oof_GE_biomass, 
-          p2_oof_jared_data)
+          p2_oof_kehe_data)
 
 h <- 3
 w <- 3
 
-ggsave(filename = '../../Figures/so_fit_loo_Butyrate.pdf', plot = palign[[1]], 
+ggsave(filename = '../Figures/so_fit_loo_Butyrate.pdf', plot = palign[[1]], 
        device = 'pdf', dpi = 600, bg = 'transparent', height = h, width = w) 
 
-ggsave(filename = '../../Figures/so_fit_loo_langenheder.pdf', plot = palign[[2]], 
+ggsave(filename = '../Figures/so_fit_loo_oxidation.pdf', plot = palign[[2]], 
        device = 'pdf', dpi = 600, bg = 'transparent',  height = h, width = w) 
 
-ggsave(filename = '../../Figures/so_fit_loo_starch_data.pdf', plot = palign[[3]], 
+ggsave(filename = '../Figures/so_fit_loo_starch_data.pdf', plot = palign[[3]], 
        device = 'pdf', dpi = 600, bg = 'transparent',  height = h, width = w) 
 
-ggsave(filename = '../../Figures/so_fit_loo_pyoverdine.pdf', plot = palign[[4]], 
+ggsave(filename = '../Figures/so_fit_loo_pyoverdine.pdf', plot = palign[[4]], 
        device = 'pdf', dpi = 600, bg = 'transparent', height = h, width = w) 
 
-ggsave(filename = '../../Figures/so_fit_loo_GE_biomass.pdf', plot = palign[[5]], 
+ggsave(filename = '../Figures/so_fit_loo_GE_biomass.pdf', plot = palign[[5]], 
        device = 'pdf', dpi = 600, bg = 'transparent',  height = h, width = w) 
 
-ggsave(filename = '../../Figures/so_fit_loo_jared_data.pdf', plot = palign[[6]], 
+ggsave(filename = '../Figures/so_fit_loo_kehe_data.pdf', plot = palign[[6]], 
        device = 'pdf', dpi = 600, bg = 'transparent', height = h, width = w) 
 
 
@@ -220,7 +220,7 @@ ggsave(filename = '../../Figures/so_fit_loo_jared_data.pdf', plot = palign[[6]],
 palign <- align_plots(p2_butyrate_replicates, 
                       p2_pyoverdine_replicates, 
                       p2_GE_biomass_replicates, 
-                      p2_jared_data_replicates)
+                      p2_kehe_data_replicates)
 
 ggsave(filename = '../../Figures/so_fit_replicates_Butyrate.pdf', plot = palign[[1]], 
        device = 'pdf', dpi = 600, height = 4, width = 4, bg= 'transparent') 
@@ -231,6 +231,6 @@ ggsave(filename = '../../Figures/so_fit_replicates_pyoverdine.pdf', plot = palig
 ggsave(filename = '../../Figures/so_fit_replicates_GE_biomass.pdf', plot = palign[[3]], 
        device = 'pdf', dpi = 600, height = 4, width = 4, bg= 'transparent') 
 
-ggsave(filename = '../../Figures/so_fit_replicates_jared_data.pdf', plot = palign[[4]], 
+ggsave(filename = '../../Figures/so_fit_replicates_kehe_data.pdf', plot = palign[[4]], 
        device = 'pdf', dpi = 600, height = 4, width = 4, bg= 'transparent') 
 

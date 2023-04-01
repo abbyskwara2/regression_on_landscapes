@@ -67,11 +67,11 @@ get_model_fit <- function(df, all_species, order){
   r2 <- cor(res_cv_unique$mean_observed, res_cv_unique$predicted)^2
   
   if (order == 1){
-    save(res_cv, file = paste0("../../Results/model_fit_plots/first_order_infit_", name, ".RData")) 
+    save(res_cv, file = paste0("../Results/model_fit_plots/first_order_infit_", name, ".RData")) 
   } else if (order == 2){
-    save(res_cv, file = paste0("../../Results/model_fit_plots/second_order_infit_", name, ".RData")) 
+    save(res_cv, file = paste0("../Results/model_fit_plots/second_order_infit_", name, ".RData")) 
   } else if (order == 3){
-    save(res_cv, file = paste0("../../Results/model_fit_plots/third_order_infit_", name, ".RData")) 
+    save(res_cv, file = paste0("../Results/model_fit_plots/third_order_infit_", name, ".RData")) 
   }
   
   ### leave one out ### 
@@ -135,11 +135,11 @@ get_model_fit <- function(df, all_species, order){
   r2_loo <- cor(loo_cv_res_unique$mean_observed, loo_cv_res_unique$predicted)^2
   
   if (order == 1){
-    save(loo_cv_res, file = paste0("../../Results/model_fit_plots/first_order_oof_", name, ".RData")) 
+    save(loo_cv_res, file = paste0("../Results/model_fit_plots/first_order_oof_", name, ".RData")) 
   } else if (order == 2){
-    save(loo_cv_res, file = paste0("../../Results/model_fit_plots/second_order_oof_", name, ".RData")) 
+    save(loo_cv_res, file = paste0("../Results/model_fit_plots/second_order_oof_", name, ".RData")) 
   } else if (order == 3){
-    save(loo_cv_res, file = paste0("../../Results/model_fit_plots/third_order_oof_", name, ".RData")) 
+    save(loo_cv_res, file = paste0("../Results/model_fit_plots/third_order_oof_", name, ".RData")) 
   }
   
   
@@ -180,4 +180,4 @@ for (dataset in all_datasets){
   r2_res <- rbind(r2_res, tmp)
 }
 
-saveRDS(r2_res, file = '../../Results/model_fit_data/r2_res.RDS')
+saveRDS(r2_res, file = '../Results/model_fit_data/r2_res.RDS')

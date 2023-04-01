@@ -1,4 +1,5 @@
 library(tidyverse)
+library(tidyverse)
 library(cowplot)
 library(extrafont)
 
@@ -10,7 +11,7 @@ choose_font('Arial')
 ### for langenheder et al. data      ##
 #######################################
 
-df <- read_csv("../../Data/Langenheder.csv", show_col_types = FALSE)
+df <- read_csv("../Data/oxidation.csv", show_col_types = FALSE)
 df <- rbind(df, rep(0, 7))
 all_species <- colnames(df %>% select(-fitness))
 
@@ -44,6 +45,8 @@ fourier_coef_data <- data.frame(fourier_coefs) %>%
 #name empirical data
 empirical_coef_data <- fourier_coef_data
 
+#check amplitudes sum to 1 
+#empirical_coef_data %>% filter(order !=0) %>% summarize(sum(norm_amplitude))
 
 # randomized landscape comparison
 amplitude_res <- tibble() 
@@ -115,7 +118,7 @@ empirical_coef_data %>% filter(order > 0) %>%
         panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 
-ggsave(filename = '../../Figures/amplitude_spectrum_langenheder.pdf', 
+ggsave(filename = '../Figures/amplitude_spectrum_langenheder.pdf', 
        device = 'pdf', dpi = 600, height = 5, width = 6.2)
 
 
@@ -123,7 +126,8 @@ ggsave(filename = '../../Figures/amplitude_spectrum_langenheder.pdf',
 ## Fig 3C, inferred 3rd order spectrum ##
 #########################################
 
-my_path <- "../../Results/model_fit_plots/"
+#read in fits from fit_all__models.R
+my_path <- "../Results/model_fit_plots/"
 my_pattern <- 'third_order_infit_coef_data'
 coef_datasets <- list.files(path = my_path, pattern = my_pattern)
 
@@ -142,7 +146,7 @@ for (dataset in coef_datasets){
   
   coef_data <- coef_data %>% mutate(norm_amplitude = amplitude/total_fit_amplitude)
   
-  p <- coef_data %>% filter(order>0) %>% 
+  p <- coef_data %>% filter(order > 0) %>% 
     distinct(order, amplitude, norm_amplitude) %>% 
     ggplot(aes(x = as.factor(order), y = norm_amplitude)) +  
     geom_point(color = 'red') + 
@@ -155,7 +159,7 @@ for (dataset in coef_datasets){
           panel.border = element_rect(fill=NA, colour = "black", size = 1), 
           panel.grid.major = element_blank(), panel.grid.minor = element_blank())
   
-  ggsave(filename = paste0("../../Figures/amp_spectrum_reg_", name, ".pdf"), 
+  ggsave(filename = paste0("../Figures/amp_spectrum_reg_", name, ".pdf"), 
          height = 68, width = 65, units = 'mm', 
          plot = p, device = 'pdf', dpi = 600, limitsize = F)
 }

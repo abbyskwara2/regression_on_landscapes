@@ -56,7 +56,7 @@ for (ind in 1:length(all_datasets)){
   print(p)
   
   scale_val <- 1.75
-  ggsave(filename = paste0('../../Results/model_fit_plots/r2_summary_', dataset, '.pdf'), 
+  ggsave(filename = paste0('../Results/model_fit_plots/r2_summary_', dataset, '.pdf'), 
          plot = p, device = 'pdf', height = 37*scale_val, width = 50*scale_val, units = 'mm', 
          limitsize = FALSE,
          dpi = 500)
