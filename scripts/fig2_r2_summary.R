@@ -3,8 +3,8 @@ library(readr)
 library(extrafont)
 library(RColorBrewer)
 
-#read in r2 summary from all datasets 
-r2_res <- readRDS("../Results/model_fit_data/r2_res.RDS")
+#read in r2 summary from all datasets (saved from fit_all_models.R)
+r2_res <- readRDS("../results/r2_res.RDS")
 
 #collect names 
 all_datasets <- r2_res$name
@@ -56,7 +56,7 @@ for (ind in 1:length(all_datasets)){
   print(p)
   
   scale_val <- 1.75
-  ggsave(filename = paste0('../Results/model_fit_plots/r2_summary_', dataset, '.pdf'), 
+  ggsave(filename = paste0('../results/figures/r2_summary_', dataset, '.pdf'), 
          plot = p, device = 'pdf', height = 37*scale_val, width = 50*scale_val, units = 'mm', 
          limitsize = FALSE,
          dpi = 500)

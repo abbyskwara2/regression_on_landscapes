@@ -2,7 +2,16 @@ library(tidyverse)
 library(readr)
 library(glmnet)
 
-set.seed(1)
+###########################################################
+## script to fit regularized regressions of orders 1-3 to
+## all datasets. At each order, models are fit with all data
+## in sample and with a leave-one-out cross-validation
+## procedure. All model fits are saved to a specified directory.
+################################################################
+
+#where should model fits be saved?
+path_to_save <- '../results/'
+
 
 #helper function for cross validation
 get_folds <- function(df, unique_communities, n_folds = 10){
@@ -27,7 +36,6 @@ get_folds <- function(df, unique_communities, n_folds = 10){
   
   return(fold_ids)
 }
-
 
 #####################################
 ## function to fit regularized     ##
@@ -67,11 +75,11 @@ get_model_fit <- function(df, all_species, order){
   r2 <- cor(res_cv_unique$mean_observed, res_cv_unique$predicted)^2
   
   if (order == 1){
-    save(res_cv, file = paste0("../Results/model_fit_plots/first_order_infit_", name, ".RData")) 
+    save(res_cv, file = paste0(path_to_save, "first_order_infit_", name, ".RData")) 
   } else if (order == 2){
-    save(res_cv, file = paste0("../Results/model_fit_plots/second_order_infit_", name, ".RData")) 
+    save(res_cv, file = paste0(path_to_save, "second_order_infit_", name, ".RData")) 
   } else if (order == 3){
-    save(res_cv, file = paste0("../Results/model_fit_plots/third_order_infit_", name, ".RData")) 
+    save(res_cv, file = paste0(path_to_save, "third_order_infit_", name, ".RData")) 
   }
   
   ### leave one out ### 
@@ -135,11 +143,11 @@ get_model_fit <- function(df, all_species, order){
   r2_loo <- cor(loo_cv_res_unique$mean_observed, loo_cv_res_unique$predicted)^2
   
   if (order == 1){
-    save(loo_cv_res, file = paste0("../Results/model_fit_plots/first_order_oof_", name, ".RData")) 
+    save(loo_cv_res, file = paste0(path_to_save, "first_order_oof_", name, ".RData")) 
   } else if (order == 2){
-    save(loo_cv_res, file = paste0("../Results/model_fit_plots/second_order_oof_", name, ".RData")) 
+    save(loo_cv_res, file = paste0(path_to_save, "second_order_oof_", name, ".RData")) 
   } else if (order == 3){
-    save(loo_cv_res, file = paste0("../Results/model_fit_plots/third_order_oof_", name, ".RData")) 
+    save(loo_cv_res, file = paste0(path_to_save, "third_order_oof_", name, ".RData")) 
   }
   
   
@@ -148,7 +156,7 @@ get_model_fit <- function(df, all_species, order){
 
 
 ##### fit models to all datasets #### 
-data_path <- "../../Data/"
+data_path <- "../data/"
 all_datasets <- list.files(data_path, pattern = '.csv') 
 
 r2_res <- tibble()
@@ -180,4 +188,6 @@ for (dataset in all_datasets){
   r2_res <- rbind(r2_res, tmp)
 }
 
-saveRDS(r2_res, file = '../Results/model_fit_data/r2_res.RDS')
+# save for convenient use in fig2_r2_summary script 
+saveRDS(r2_res, file = paste0(path_to_save, 'r2_res.RDS'))
+        

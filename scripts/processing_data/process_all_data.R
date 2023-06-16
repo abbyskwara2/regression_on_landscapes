@@ -87,7 +87,7 @@ df <- read_csv(paste0(data_path, "Langenheder.etal.2010.xylose.48h.csv"))
 #rename function col
 colnames(df)[7] <- 'fitness'
 
-write.csv(x = df, file = "../../data/oxidation.csv", row.names = FALSE)
+write.csv(x = df, file = "../../data/Langenheder.csv", row.names = FALSE)
 
 #########################################
 ## Diaz-Colunga et al. (total biomass) ##
