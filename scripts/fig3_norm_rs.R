@@ -7,7 +7,7 @@ rmse <- function(observed, predicted){
   return(sqrt(mean((observed - predicted)^2)))
 }
 
-data_path <- "../Data/" 
+data_path <- "../data/" 
 all_datasets <- list.files(data_path, pattern = '.csv')
 
 ###############################
@@ -71,14 +71,14 @@ rs_plot_res <- left_join(rs_res %>% filter(rep != 'empirical'),
                mutate(rel_rs = rs.y/rs.x)
 
 rs_plot_res$name <- factor(rs_plot_res$name, levels = c('Butyrate', 
-                                                        'oxidation', 
+                                                        'Langenheder', 
                                                         'starch_data', 
                                                         'pyoverdine', 
                                                         'GE_biomass', 
                                                         'kehe_data'))
 
 my_labs <- c('Butyrate production', 
-             'Xylose oxidation', 
+             'Growth on xylose', 
              'Starch hydrolysis', 
              'Siderophore production', 
              'Total biomass', 
@@ -100,4 +100,4 @@ rs_plot_res %>%
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank()) 
 
-ggsave(filename = '../Figures/rs_plot_norm.pdf', height = 4.55, width = 6.7, device = 'pdf', dpi = 600)
+ggsave(filename = '../results/figures/rs_plot_norm.pdf', height = 4.55, width = 6.7, device = 'pdf', dpi = 600)
